@@ -5,15 +5,16 @@ from langgraph.graph import StateGraph
 from langgraph.graph.message import add_messages
 from typing import Dict
 from ollama import Client
+import shlex
 
 def run_review_pipeline(diff: str = "staged"):
     import subprocess
 
-    # Get the Git diff
     if diff == "staged":
         result = subprocess.run(["git", "diff", "--cached"], capture_output=True, text=True)
     else:
-        result = subprocess.run(["git", "diff", diff], capture_output=True, text=True)
+        diff_args = shlex.split(diff)  # Allows for input like 'HEAD~3..HEAD'
+        result = subprocess.run(["git", "diff", *diff_args], capture_output=True, text=True)
 
     diff_text = result.stdout.strip()
 
