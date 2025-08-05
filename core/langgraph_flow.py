@@ -251,13 +251,15 @@ def run_review_pipeline(diff: str = "staged"):
     builder.add_edge("critique", "suggestions")
 
     # Parallel agent branches
+    # ✅ Sequential agent execution to avoid state key collisions
     builder.add_edge("suggestions", "security")
-    builder.add_edge("suggestions", "architecture")
-    # builder.add_edge("suggestions", "test_coverage")
-    # builder.add_edge("suggestions", "ui")
-    # builder.add_edge("suggestions", "dependency")
-    # builder.add_edge("suggestions", "performance")
-    # builder.add_edge("suggestions", "readability")
+    builder.add_edge("security", "architecture")
+    builder.add_edge("architecture", "test_coverage")
+    builder.add_edge("test_coverage", "ui")
+    builder.add_edge("ui", "dependency")
+    builder.add_edge("dependency", "performance")
+    builder.add_edge("performance", "readability")
+    builder.set_finish_point("readability")
 
     # Finish after last agent
     builder.set_finish_point("readability")
