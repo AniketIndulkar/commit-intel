@@ -1,4 +1,5 @@
 # cli/review.py
+
 import typer
 from core.langgraph_flow import run_review_pipeline
 from core.jacoco_agent import run_coverage_analysis
@@ -7,12 +8,22 @@ from core.prehook_installer import install_hook
 app = typer.Typer()
 
 @app.command()
-def commit(diff: str = typer.Option("staged", help="Git diff: staged, HEAD~1, etc.")):
+def commit(
+    diff: str = typer.Option("HEAD~1", help="Git diff: HEAD~1, HEAD~3..HEAD, etc.")
+):
     """
-    Run the commit review agent on a given diff.
+    Run the commit review agent on a commit diff (default: HEAD~1).
     """
-    typer.echo("🔍 Running LLM commit review...")
+    typer.echo(f"🔍 Running LLM commit review on diff: {diff}...")
     run_review_pipeline(diff=diff)
+
+@app.command()
+def staged():
+    """
+    Run the commit review agent on currently staged changes.
+    """
+    typer.echo("🔍 Running LLM review on staged changes...")
+    run_review_pipeline(diff="staged")
 
 @app.command()
 def coverage():
