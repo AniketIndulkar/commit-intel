@@ -1,0 +1,9 @@
+typer[all]              # For CLI interface
+langchain               # Core LLM orchestration
+langgraph               # Agent workflows
+gitpython               # Git commit/diff inspection
+xmltodict               # JaCoCo XML parsing
+tiktoken                # Token counting (if needed by LLM)
+openai                  # For OpenAI GPT calls (or replace with ollama)
+ollama                  # Only needed if integrating with Ollama's Python SDK
+setuptools

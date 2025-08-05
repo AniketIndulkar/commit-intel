@@ -1,0 +1,7 @@
+typer[all]
+langchain
+langgraph
+gitpython
+xmltodict
+tiktoken
+openai
